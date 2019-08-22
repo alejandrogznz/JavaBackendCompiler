@@ -40,6 +40,7 @@ void ClassFile::buildClassFileFromFile()
     // TODO throw an exception if there is no 0xCAFEBABE in the first 4 bytes
     unsigned int magic_num = 0xCAFEBABE;
     char c;
+	unsigned char d;
     ifstream readfile(fileName.c_str(), ios::in | ios::binary);
 
     // Assignment
@@ -47,6 +48,15 @@ void ClassFile::buildClassFileFromFile()
     minorVersion = readUnsignedShortFromFile(readfile);
     majorVersion = readUnsignedShortFromFile(readfile);
     constantPoolCount = readUnsignedShortFromFile(readfile);
+
+	ConstantPool cp(constantPoolCount, readfile);
+
+	while (readfile.good())
+	{
+		readfile.read(&c, 1);
+		d = c;
+		printf("%02X", d);
+	}
 
     readfile.close();
 }

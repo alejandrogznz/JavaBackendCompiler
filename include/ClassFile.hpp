@@ -1,8 +1,13 @@
+#ifndef JAVABACKENDCOMPILER_CLASSFILE_H_
+#define JAVABACKENDCOMPILER_CLASSFILE_H_
+
 # include <iostream>
 # include <fstream>
 # include <string>
 # include <iomanip>
 # include <arpa/inet.h>
+
+# include "ConstantPool.hpp"
 
 class ClassFile
 {
@@ -44,3 +49,5 @@ private:
     static unsigned int readUnsignedWordFromFile(std::ifstream &openFile);
 
 };
+
+# endif //JAVABACKENDCOMPILER_CLASSFILE_H_
