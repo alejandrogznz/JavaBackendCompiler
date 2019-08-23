@@ -4,8 +4,12 @@
 # include <iostream>
 # include <string>
 # include <vector>
+# include <fstream>
 
 # include "ConstantPoolEntry.hpp"
+
+# define CONSTANT_METHOD_REF 0x0A
+
 
 // Main Constant Pool Class
 // Contains a vector of Class Pool Entry
@@ -22,8 +26,11 @@ public:
 
 	ConstantPool(unsigned int poolSize, std::ifstream &openFile);
 
+    ~ConstantPool();
+
 private:
 
+    void createConstantPoolFromStream(unsigned int poolSize, std::ifstream &openFile);
 
 };
 
