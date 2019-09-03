@@ -9,6 +9,10 @@
 # include "ConstantPoolEntry.hpp"
 
 # define CONSTANT_METHOD_REF 0x0A
+# define CONSTANT_FIELD_REF 0x9
+# define CONSTANT_CLASS 0x7
+# define CONSTANT_UTF_8 0x1
+# define CONSTANT_NAME_AND_TYPE 0x0C
 
 
 // Main Constant Pool Class
@@ -25,6 +29,8 @@ protected:
 public:
 
 	ConstantPool(unsigned int poolSize, std::ifstream &openFile);
+
+	std::string toString();
 
     ~ConstantPool();
 

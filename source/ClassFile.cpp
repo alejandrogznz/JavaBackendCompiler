@@ -18,15 +18,27 @@ ClassFile::ClassFile(std::string filename)
     buildClassFileFromFile();
 }
 
-string ClassFile::getString()
+string ClassFile::toString()
 {
     stringstream outString;
     outString << "ClassFile: " << fileName << endl;
     outString << "Magic Number: 0x" << hex << magicNumber << endl;
     outString << "Minor Version: 0x" << hex << minorVersion << endl;
     outString << "Major Version: 0x" << hex << majorVersion << endl;
+	outString << "Access Flags: 0x" << hex << accessFlags << endl;
+	outString << "This Class: 0x" << hex << thisClass << endl;
+	outString << "Super Class: 0x" << hex << superClass << endl;
+	outString << "Interface Count: 0x" << hex << interfaceCount << endl;
+	outString << "Fields Count: 0x" << hex << fieldsCount << endl;
+	outString << "Mehtods Count: 0x" << hex << methodsCount << endl;
+	outString << "Attributes Count: 0x" << hex << attributesCount << endl;
     outString << "Constant Pool Count: 0x" << hex << constantPoolCount << endl;
-
+	outString << "Constant Pool Members\n" << endl;
+	for (auto m : methods)
+	{
+		outString << m->toString() << endl;
+	}
+	// TODO outString << constantPool->toString();
 
     return string(outString.str());
 }
@@ -48,8 +60,18 @@ void ClassFile::buildClassFileFromFile()
     minorVersion = readUnsignedShortFromFile(readfile);
     majorVersion = readUnsignedShortFromFile(readfile);
     constantPoolCount = readUnsignedShortFromFile(readfile);
+	constantPool = new ConstantPool(constantPoolCount, readfile);
+	accessFlags = readUnsignedShortFromFile(readfile);
+	thisClass = readUnsignedShortFromFile(readfile);
+	superClass = readUnsignedShortFromFile(readfile);
+	interfaceCount = readUnsignedShortFromFile(readfile);
+	// TODO There are no interfaces in this project, so for now we'll skip over them
+	fieldsCount = readUnsignedShortFromFile(readfile);
+	// TODO There are also no fields in this assignment, so skip over this too
+	methodsCount = readUnsignedShortFromFile(readfile);
+	readMethodsFromFile(readfile);
+	//attributesCount = readUnsignedShortFromFile(readfile);
 
-	ConstantPool cp(constantPoolCount, readfile);
 
 	while (readfile.good())
 	{
@@ -57,8 +79,19 @@ void ClassFile::buildClassFileFromFile()
 		d = c;
 		printf("%02X", d);
 	}
-
+	printf("\n");
     readfile.close();
+}
+
+void ClassFile::readMethodsFromFile(ifstream &openFile)
+{
+	Method * m = nullptr;
+	//for (int i = 0; i < methodsCount; ++i)
+	{
+		m = new Method(openFile);
+		methods.push_back(m);
+		m = nullptr;
+	}
 }
 
 unsigned short int ClassFile::readUnsignedShortFromFile(ifstream &openFile)

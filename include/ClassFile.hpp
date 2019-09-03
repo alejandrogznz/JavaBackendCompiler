@@ -8,6 +8,7 @@
 # include <arpa/inet.h>
 
 # include "ConstantPool.hpp"
+# include "ClassMethod.hpp"
 
 class ClassFile
 {
@@ -23,6 +24,26 @@ protected:
 
     unsigned short int constantPoolCount;
 
+	ConstantPool * constantPool;
+
+	unsigned short int accessFlags;
+
+	unsigned short int thisClass;
+
+	unsigned short int superClass;
+
+	unsigned short int interfaceCount;
+
+	unsigned short int fieldsCount;
+
+	unsigned short int methodsCount;
+
+	std::vector<Method *> methods;
+
+	unsigned short int attributesCount;
+
+	std::vector<Method *> attributes;
+
 public:
 	ClassFile();
 
@@ -30,7 +51,7 @@ public:
 
 	ClassFile(std::string filename);
 
-    std::string getString();
+    std::string toString();
 
 	std::string getInterprettedOutput();
 
@@ -39,6 +60,8 @@ public:
 private:
 
 	void buildClassFileFromFile();
+
+	void readMethodsFromFile(std::ifstream &openFile);
 
     static short int readShortFromFile(std::ifstream &openFile);
 

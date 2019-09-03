@@ -16,11 +16,40 @@ public:
 
 	ConstantPoolEntry(unsigned int newTag);
 
+	virtual std::string toString() = 0;
+
 };
 
-class ConstantClass;
+class ConstantClass
+	:public ConstantPoolEntry
+{
+protected:
 
-class ConstantFieldRef;
+	unsigned short int name_index;
+
+public:
+	ConstantClass(unsigned int tag, std::ifstream &openFile);
+
+	std::string toString();
+
+};
+
+class ConstantFieldRef
+	:public ConstantPoolEntry
+{
+protected:
+
+    unsigned short int class_index;
+
+    unsigned short int name_and_type_index;
+
+public:
+
+    ConstantFieldRef(unsigned int tag, std::ifstream &openFile);
+
+	std::string toString();
+};
+
 
 class ConstantMethodRef
     :public ConstantPoolEntry
@@ -34,6 +63,8 @@ protected:
 public:
 
     ConstantMethodRef(unsigned int tag, std::ifstream &openFile);
+
+	std::string toString();
 };
 
 class ConstantInterfaceMethodRef;
@@ -46,9 +77,41 @@ class ConstantFloat;
 
 class ConstantLong;
 
-class ConstantNameAndType;
+class ConstantNameAndType
+	:public ConstantPoolEntry
+{
+protected:
 
-class ConstantUtf8;
+	unsigned short int name_index;
+
+	unsigned short int descriptor_index;
+
+public:
+
+	ConstantNameAndType(unsigned int tag, std::ifstream &openFile);
+
+	std::string toString();
+};
+
+class ConstantUtf8 // Tag 0x01
+	:public ConstantPoolEntry
+{
+protected:
+
+	unsigned int length;
+	
+	std::string bytes;
+
+public:
+
+	ConstantUtf8(unsigned int tag, std::ifstream &openFile);
+
+	std::string toString();
+
+private:
+
+	std::string readStringFromFileStream(std::ifstream &openfile);
+};
 
 class ConstantMethodHandle;
 

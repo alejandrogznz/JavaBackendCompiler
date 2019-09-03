@@ -21,6 +21,16 @@ static unsigned short int readUnsignedShortFromFile(std::ifstream &openFile)
 
 static int readWordFromFile(std::ifstream &openFile);
 
-static unsigned int readUnsignedWordFromFile(std::ifstream &openFile);
+static unsigned int readUnsignedWordFromFile(std::ifstream &openFile)
+{
+	unsigned int res = 0;
+	char * buf = new char[4];
+	openFile.read(buf, 4);
+	void * v_char = reinterpret_cast<void *>(buf);
+	unsigned int * i_char = reinterpret_cast<unsigned int *>(v_char);
+	res = *i_char;
+	delete [] buf;
+	return htonl(res);
+}
 
 # endif // JAVABACKENDCOMPILER_FILEUTIL_H_
