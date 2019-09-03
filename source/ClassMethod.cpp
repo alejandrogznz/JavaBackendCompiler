@@ -9,14 +9,21 @@ CodeAttribute::CodeAttribute(ifstream & openFile)
 	maxStack = readUnsignedShortFromFile(openFile);
 	maxLocals = readUnsignedShortFromFile(openFile);
 	codeLength = readUnsignedWordFromFile(openFile);
+	code = readCharsFromFileStream(openFile, codeLength);
+}
 
-	cout << attributeNameIndex << endl;
-	cout << attributeLength << endl;
-	cout << maxStack << endl;
-	cout << maxLocals << endl;
-	cout << codeLength << endl;
-	
-
+string CodeAttribute::toString()
+{
+	string s = "";
+	s = "Code Attribute:\n";
+	s += "\tAttribute Name Index: " + to_string(attributeNameIndex) + "\n";
+	s += "\tAttribute Length: " + to_string(attributeLength) + "\n";
+	s += "\tMax Stack: " + to_string(maxStack) + "\n";
+	s += "\tMax Locals: " + to_string(maxLocals) + "\n";
+	s += "\tCode Length: " + to_string(codeLength) + "\n";
+	for (int i = 0; i < codeLength; ++i)
+		printf("%x\n", code[i]);
+	return s;
 }
 
 Method::Method(ifstream &openFile)
@@ -32,6 +39,7 @@ string Method::toString()
 	s += "Name Index: " + to_string(nameIndex) + "\n";
 	s += "Descriptor Index: " + to_string(descriptorIndex) + "\n";
 	s += "Attribute Count: " + to_string(attributesCount) + "\n";
+	s += codeAttribute->toString();
 	return s;
 }
 

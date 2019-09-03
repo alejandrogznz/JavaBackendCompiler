@@ -30,8 +30,6 @@ public:
 
 	CodeAttribute(std::ifstream & openFile);
 
-private:
-
 	std::string toString();
 
 };

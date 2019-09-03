@@ -5,6 +5,15 @@
 # include <fstream>
 # include <arpa/inet.h>
 
+static unsigned char * readCharsFromFileStream(std::ifstream &openFile, unsigned int length)
+{
+	char * str = new char[length + 1];
+	openFile.read(str, length + 1);
+	str[length] = '\0';
+	unsigned char * uchar = reinterpret_cast<unsigned char *>(str);
+	return uchar;
+}
+
 static short int readShortFromFile(std::ifstream &openFile);
 
 static unsigned short int readUnsignedShortFromFile(std::ifstream &openFile)
