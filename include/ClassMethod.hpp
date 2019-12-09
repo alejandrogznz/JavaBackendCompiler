@@ -4,6 +4,8 @@
 # include <iostream>
 # include <fstream>
 # include <string>
+# include <vector>
+
 # include "FileUtil.hpp"
 
 class CodeAttribute
@@ -29,6 +31,14 @@ protected:
 public:
 
 	CodeAttribute(std::ifstream & openFile);
+	
+	unsigned char * getCode();
+
+	unsigned int getCodeLength();
+
+	unsigned short int getMaxStack();
+
+	unsigned short int getMaxLocals();
 
 	std::string toString();
 
@@ -51,6 +61,8 @@ protected:
 public:
 
 	Method(std::ifstream &openFile);
+
+	CodeAttribute * getCodeAttribute();
 
 	std::string toString();
 

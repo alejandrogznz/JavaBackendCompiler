@@ -9,5 +9,6 @@ int
 main(int argc, char * argv[])
 {
     ClassFile cf("Test.class");
-    cout << cf.toString();
+    cf.generateMachineCode();
+    //cout << cf.toString();
 }

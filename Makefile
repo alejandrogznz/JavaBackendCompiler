@@ -1,5 +1,5 @@
 GCC=g++ -std=c++17
-OBJ=main.o ClassFile.o ConstantPool.o ConstantPoolEntry.o ClassMethod.o
+OBJ=main.o ClassFile.o ConstantPool.o ConstantPoolEntry.o ClassMethod.o Instruction.o
 INC=./include/
 SRC=./source/
 
@@ -20,6 +20,9 @@ ConstantPoolEntry.o: $(INC)ConstantPoolEntry.hpp $(SRC)ConstantPoolEntry.cpp
 
 ClassMethod.o: $(INC)ClassMethod.hpp $(SRC)ClassMethod.cpp
 	$(GCC) $(SRC)ClassMethod.cpp -c
+
+Instruction.o: $(INC)Instruction.hpp $(SRC)Instruction.cpp
+	$(GCC) $(SRC)Instruction.cpp -c
 
 
 clean:

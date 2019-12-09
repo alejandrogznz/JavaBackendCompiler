@@ -9,6 +9,8 @@
 
 # include "ConstantPool.hpp"
 # include "ClassMethod.hpp"
+# include "Instruction.hpp"
+# include "ByteCodes.hpp"
 
 class ClassFile
 {
@@ -44,6 +46,8 @@ protected:
 
 	std::vector<Method *> attributes;
 
+	std::vector<std::vector<Instruction *>> instructionMethods;
+
 public:
 	ClassFile();
 
@@ -70,6 +74,12 @@ private:
     static int readWordFromFile(std::ifstream &openFile);
 
     static unsigned int readUnsignedWordFromFile(std::ifstream &openFile);
+
+	// Machine Code Generation
+	
+	void buildInstructionList();
+
+	static void readByteCode(unsigned char * code, unsigned int length);
 
 };
 
