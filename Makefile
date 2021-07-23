@@ -1,29 +1,25 @@
 GCC=g++ -std=c++17
-OBJ=main.o ClassFile.o ConstantPool.o ConstantPoolEntry.o ClassMethod.o Instruction.o
-INC=./include/
-SRC=./source/
+SRC_DIR=source
+OBJ_DIR=obj
+BIN_DIR=bin
+EXE := a.out
 
-main: $(OBJ)
-	$(GCC) $(OBJ) -o main
+SRC := $(wildcard $(SRC_DIR)/*cpp) main.cpp
+OBJ := $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
+all: $(EXE)
 
-main.o: main.cpp
-	$(GCC) main.cpp -c
+$(EXE): $(OBJ)
+	$(GCC) $^ -o $@
 
-ClassFile.o: $(INC)ClassFile.hpp $(SRC)ClassFile.cpp
-	$(GCC) $(SRC)ClassFile.cpp -c
+$(EXE): $(OBJ) | $(BIN_DIR)
+	$(GCC) $^ -o $@
 
-ConstantPool.o: $(INC)ConstantPool.hpp $(SRC)ConstantPool.cpp
-	$(GCC) $(SRC)ConstantPool.cpp -c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
+	$(GCC) -c $< -o $@
 
-ConstantPoolEntry.o: $(INC)ConstantPoolEntry.hpp $(SRC)ConstantPoolEntry.cpp
-	$(GCC) $(SRC)ConstantPoolEntry.cpp -c 
-
-ClassMethod.o: $(INC)ClassMethod.hpp $(SRC)ClassMethod.cpp
-	$(GCC) $(SRC)ClassMethod.cpp -c
-
-Instruction.o: $(INC)Instruction.hpp $(SRC)Instruction.cpp
-	$(GCC) $(SRC)Instruction.cpp -c
+$(BIN_DIR) $(OBJ_DIR):
+	mkdir -p $@
 
 
-clean:
-	rm -f *.o main
+$(info $(SRC))
+$(info $(OBJ))
